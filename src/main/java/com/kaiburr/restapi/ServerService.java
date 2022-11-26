@@ -28,7 +28,7 @@ public class ServerService{
     {
         Server s = repo.findServerById(id);
         if(s==null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.of(Optional.of(s));
     }
 

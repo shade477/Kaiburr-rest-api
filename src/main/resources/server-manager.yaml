@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  title: Kaiburr Server API
+  description: This is a server management API
+  version: 1.0.0
+  contact:
+    email: 190301120012@cutm.ac.in
+    name: Sagar Dey
+tags:
+  - name: server
+    description: server details
+paths:
+  /server/{id}:
+    get:
+      tags:
+      - server
+      summary: Get all the servers having the same id
+      description: returns objects with same id
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the server'
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Displays all the servers in the database
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/server"
+        "404":
+          description: No servers in the database
+    delete:
+      tags:
+        - server
+      summary: Deletes the server object
+      description: Deletes the server objects with the same id
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the server'
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: The objects has been deleted successfully from the database
+  /server:
+    get:
+      tags:
+        - server
+      summary: To get all the server objects in the database
+      description: returns all the server objects
+      responses:
+        "200":
+          description: All the server objects have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/server"
+        "404":
+          description: There are no servers in the database or the database is not connected
+    put:
+        tags:
+          - server
+        summary: To insert a server into the database
+        parameters:
+        - name: name
+          in: query
+          description: name of the server
+          required: true
+          schema:
+            type: string
+            format: name
+            example: my centos
+        - name: id
+          in: query
+          description: ID of the server
+          required: false
+          schema:
+            type: string
+            format: id
+            example: 123
+        - name: language
+          in: query
+          description: Language used in the server
+          required: true
+          schema:
+            type: string
+            format: language
+            example: java
+        - name: framework
+          in: query
+          description: Framework deployed in the server
+          required: true
+          schema:
+            type: string
+            format: framework
+            example: django
+        responses:
+          "202":
+            description: Server object has been successfully inserted into the database
+          "404":
+            description: Server object was invalid or the database was not available
+  /server/find/{name}:
+    get:
+      tags:
+        - server
+      summary: To find object by name
+      description: Returns a single server object
+      parameters:
+        - name: name
+          in: path
+          description: Name of the server
+          required: true
+          schema:
+            type: string
+            format: name
+            example: my centos
+      responses:
+        "200":
+          description: Server retrieved from the database
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/server"
+        "404":
+          description: Server with the name does not exist in the database
+components:
+  schemas:
+    server:
+      type: object
+      properties:
+        name:
+          type: string
+          format: name
+          example: "my centos"
+        id:
+          type: string
+          format: id
+          example: "123"
+        language:
+          type: string
+          format: language
+          example: "java"
+        framework:
+          type: string
+          example: "django"
+        
